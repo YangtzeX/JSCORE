@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>构造函数</title>
+</head>
+<body>
+    <h1>构造函数:描述同一类型所有对象统一结构的函数</h1>
+    <script>
+        function Students(sname,sage){
+            this.sname = sname;
+            this.sage = sage;
+            this.intr = function(){
+                document.write(`<h2>I'm ${this.sname},I'm ${this.sage}</h2>`)
+            }
+        }
+        var lilei = new Students('LiLei',11);
+        var hmm = new Students('HanMeimei',12);
+        console.log(lilei);
+        console.log(hmm);
+        hmm.intr()
+        lilei.intr()
+    </script>
+</body>
+</html>

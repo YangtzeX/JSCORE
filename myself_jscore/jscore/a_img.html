@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>点击文字链接实现图片切换而不跳转页面</title>
+</head>
+<body>
+    <ul>
+        <li><a href="img/1.jpg" onclick="showPic(this);return false">图片一</a></li>
+        <li><a href="img/2.jpg" onclick="showPic(this);return true">图片二</a></li>
+        <li><a href="img/3.jpg" onclick="showPic(this);return false">图片三</a></li>
+    </ul>
+    <img src="img/4.jpg" id="placeholder">
+    <script>
+        showPic = function(whichpic){
+            var source = whichpic.getAttribute("href");
+            var placeholder = document.getElementById("placeholder");
+            placeholder.setAttribute("src",source);
+        }
+    </script>
+</body>
+</html>6

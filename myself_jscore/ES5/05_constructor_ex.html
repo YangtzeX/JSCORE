@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>保护对象</title>
+</head>
+<body>
+    <script>
+        "use strict";
+        function Emp(e,n,s,a){  //e:eid,n:name,s:salary,a:age
+            //eid禁止修改
+            //name禁止删除
+            //salary禁止遍历
+            //age范围在18-65之间
+            //使用数据属性对属性提供保护
+            Object.defineProperties(this,{
+                e:{
+                    value:e,
+                    writable:false,  //禁止修改
+                    enumerable:true
+                },
+                n:{
+                    value:n,
+                    writable:true,
+                    enumerable:true
+                },
+                s:{
+                    value:s,
+                    writable:true,
+                    enumerable:false  //禁止遍历
+                },
+                //使用访问器属性定义一个半隐藏的_age属性
+                _a:{
+                    writable:true,
+                    enumerable:false
+                }
+            })
+            this.a = a
+            //使用保护结构的蜜蜂特性禁止添加属性和删除现有属性
+            Object.seal(this);
+        }    
+        //2.定义访问器属性,因为get和set方法是函数,要放在原型对象里
+        Object.defineProperty(Emp.prototype,"a",{
+            //获取时自动调用get
+            //此处的get,set相当于writable
+            get:function(){
+                return this._a
+            },
+            //修改时自动调用set
+            set:function(value){
+                //判断age的范围
+                if(value>=18&&value<=65){
+                    return this._a = value;
+                }else{
+                    throw new Error("年龄超范围")
+                }
+            },
+            enumerable:true
+        })
+        //实例化一个对象
+        var eric = new Emp(1001,"埃里克",12000,25)
+        //试图修改eid
+        //eric.e = 1;
+        //试图删除name
+        //delete eric.n;
+        //试图遍历salary
+        for(var key in eric){
+            document.write(`<h1>${key} : ${eric[key]}</h1>`)
+        }
+        //试图修改年龄(在范围内/不再范围内)
+        eric.a = 26
+        //eric.a = -2
+        console.log(eric)
+    </script>
+</body>
+</html>

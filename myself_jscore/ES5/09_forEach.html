@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>遍历API</title>
+</head>
+<body>
+    <script>
+        var arr = [1,2,3,4,5]
+        //让数组中的元素乘以2
+        /*
+        //使用for循环
+        for(var i=0;i<arr.length;i++){
+            arr[i]*=2;
+        } 
+        */ 
+        
+        //使用forEach
+        arr.forEach(function(elem,i,arr){
+            arr[i]*=2
+            //elem*=2     //1,2,3,4,5
+        })
+        
+        //简写回调函数为箭头函数(ES6新特性)
+        //arr.forEach((elem,i,arr)=>arr[i]*=2);
+        document.write(`<h1>${arr}</h1>`)    //2,4,6,8,10
+    </script> 
+</body>
+</html>

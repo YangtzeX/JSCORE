@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>继承:原型对象</title>
+</head>
+<body>
+    <script>
+        //构造函数
+        function Student(name,age){
+            this.name = name;
+            this.age = age;
+        }
+        //原型对象
+        Student.prototype.intr=function(){
+            document.write(`我是 : ${this.name};我今年${this.age}岁.`)
+        }
+        //添加一个共有属性
+        Student.prototype.className = "计算机网路技术";
+        /*new事件
+        *1.创建一个新对象
+        *2.新对象继承构造函数的原型对象
+        *3.新对象调用构造函数,强行赋值给新对象中的属性和值
+        *4.返回新对象的地址给变量
+        */
+        //修改共有属性
+        Student.prototype.className="web前端开发技术";
+        var ll = new Student('林林',23);
+        var mm = new Student('美琳',20);
+        //修改已有属性 
+        mm.className = "uid";console.log(ll);
+        //修改共有属性
+        Student.prototype.className = "前端技术"
+        console.log(mm);
+        console.log(ll.className,mm.className);
+        ll.intr();
+        mm.intr();
+    </script>
+</body>
+</html>

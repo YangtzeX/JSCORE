@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>多态:重写</title>
+</head>
+<body>
+    <script>
+        function Student(sname,sage){
+            this.sname = sname;
+            this.sage = sage;
+        }
+        Student.prototype={
+            intr:function(){
+                document.write(`我是:${this.sname},今年:${this.sage}`)
+            },
+            toString:function(){
+                return `sname:"${this.sname}",sage:${this.sage}`
+            }
+        }
+        var lilei = new Student("李雷",15);
+        var hmm = new Student("韩梅梅",16);
+        lilei.intr();
+        hmm.intr();
+        document.write(`${lilei.toString()}`)
+        document.write(`${hmm.toString()}`)
+    </script>
+</body>
+</html>

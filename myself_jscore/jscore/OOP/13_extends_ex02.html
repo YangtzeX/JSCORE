@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义继承</title>
+</head>
+<body>
+    <script>
+        //创建一个父类对象,保存子类共有属性和方法
+        function Enemy(f,s){  //f->fname,s->speed
+            this.f = f,
+            this.s = s 
+        }    
+        Enemy.prototype={
+            fly:function(){
+                document.write(`<h1>${this.f}以时速${this.s}km/h飞行</h1>`)
+            }
+        }
+        //子类型
+        function Plane(f,s,c){  //c->score
+            Enemy.call(this,f,s);  //继承父类型构造函数中的共有属性,call让Enemy的this指向指定的被调用时的对象,而不让Enemy的this泄漏到全局
+            this.c = c
+        }
+        Plane.prototype={
+            getC:function(){
+                document.write(`<h1>击落${this.f}获得${this.c}分</h1>`)
+            }
+        }
+        function Bee(f,s,a){  //a ->award
+            Enemy.call(this,f,s);
+            this.a = a;
+        }
+        Bee.prototype={
+            getA:function(){
+                document.write(`<h1>击落${this.f}获得${this.a}次机会</h1>`)
+            }
+        }
+        //让子类型继承父类型的原型对象
+        Object.setPrototypeOf(Plane.prototype,Enemy.prototype)
+        Object.setPrototypeOf(Bee.prototype,Enemy.prototype);
+        //实例化两个对象
+        var f16 = new Plane("歼16",1000,5);
+        var bee = new Bee("小蜜蜂",500,1);
+        //调用
+        f16.fly();
+        f16.getC();
+        bee.fly();
+        bee.getA();
+    </script>
+</body>
+</html>

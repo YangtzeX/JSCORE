@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>闭包</title>
+</head>
+<body>
+    <script>
+        //外层函数包裹内层函数和要保护的变量
+        function f(){
+            var total=1000;
+            //外层函数将内层函数返回到外层
+            return function(x){
+                total-=x;
+                document.write(`用了${x},还剩${total}<br>`)
+            }
+        }
+        //调用外层函数获取内层函数,保存在外部变量中
+        var c=f();
+        c(210);
+        c(125);
+        c(253)
+    </script>
+</body>
+</html>

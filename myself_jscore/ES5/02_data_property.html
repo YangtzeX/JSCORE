@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>保护属性:命名属性-数据属性的特性</title>
+</head>
+<body>
+    <script>
+        //使用严格模式
+        "use strict";
+        var eric = {eid:1001,ename:"埃里克",salary:12000};
+        //查看eric的属性
+        var eric_data=Object.getOwnPropertyDescriptor(eric,"eid");
+        //打印显示
+        console.log(eric_data);
+        //禁止修改eid
+        Object.defineProperty(eric,"eid",{
+            writable:false,  //禁止修改
+            configurable:false //禁止修改writable开关-->双保险,不可逆
+        })
+        //试图修改eid
+        //eric.eid = 1 ; //在严格模式下,当使用了禁止修改属性的特性,试图修改时会报错
+        //禁止删除ename
+        Object.defineProperty(eric,"ename",{
+            configurable : false,  //禁止删除
+
+        })
+        //试图删除ename  注意:在执行删除操作时,需要先将前面的修改eid操作注释,不然会报错,无法验证是否成功,之后后面操作也需注释前面的操作
+        //delete eric.ename;  //无法删除
+        //禁止遍历eric的工资
+        Object.defineProperty(eric,"salary",{
+            enumerable : false , //禁止遍历
+            configurable : false
+        })
+        //试图遍历salary 
+        for(var key in eric){
+            document.write(`<h1>${key} : ${eric[key]}</h1>`)   //属性名(key) : 属性值(eric[key]) 
+        }  //遍历失败,结果将不会显示工资
+        console.log(eric)
+    </script>
+</body>
+</html>

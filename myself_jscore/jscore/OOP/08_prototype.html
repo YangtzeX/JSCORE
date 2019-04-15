@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>继承(构造函数+原型对象)</title>
+</head>
+<body>
+    <h2>继承:父元素的成员,子元素无需重复创建就可直接使用(重用代码的同时节省内存)</h2>
+    <h2>原型对象:集中保存所有子对象相同成员的父对象</h2>
+    <script>
+        //构造函数
+        function Student(sname,sage){
+            this.sname = sname;
+            this.sage = sage;
+        }
+        //原型对象
+        Student.prototype.intr=function(){
+            document.write(`I'm ${this.sname},I'm ${this.sage};`)
+        }
+        //new对象
+        var lilei =new Student('LiLei',11);
+        var hmm = new Student('HanMeimei',12);
+        //调用
+        lilei.intr();
+        hmm.intr();
+        console.log(lilei);
+        console.log(hmm);
+        console.log(Student.prototype);   //Object
+        console.log(lilei.__proto__==hmm.__proto__);  //true 
+        console.log(lilei.__proto__==Student.prototype); //true
+    </script>
+</body>
+</html>

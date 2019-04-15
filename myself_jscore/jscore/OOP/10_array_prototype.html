@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>内置对象array</title>
+    <script>
+        //为数组对象添加sum()方法,让数组中的成员相加
+        Array.prototype.sum=function(){
+            //定义变量sum=0
+            var sum = 0;
+            var arr = this; //为this起个别名,便于理解
+            //遍历数组中的每个成员
+            for(var i= 0;i<arr.length;i++){
+                sum += parseFloat(arr[i])
+            }
+            //返回结果
+            return sum;
+        }
+    </script>
+</head>
+<body>
+    <script>
+        var arr1 = [1,2,3];
+        var arr2 = [12,13,14];
+        var arr3 = [3,3,7,23];
+        console.log(
+            arr1.sum(),
+            arr2.sum(),
+            arr3.sum()
+        )
+    </script>
+</body>
+</html>

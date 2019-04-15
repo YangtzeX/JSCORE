@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>严格模式:禁止arguments.callee</title>
+</head>
+<body>
+    <h2>要求三:禁止禁止arguments.callee:函数在调用时,自动获取当前正在执行的函数本身==>递归</h2>
+    <script>
+        //斐波那契:
+        //1 1 2 3 5 8 13 21 34 55
+        //1 2 3 4 5 6 7  8   9 10
+        //f1=1  f2=1 fn=f(n-1)+f(n-2)
+        /*
+        function fib(n){
+            if(n<3) return 1;
+            else{
+                return fib(n-1) + fbn(n-2);
+            }
+        }
+        console.log(fbn(10))
+        */
+        //使用循环代替递归 :好处:无需重复计算相同的数,执行速度快
+        function fib(n){
+            if(n<3) return 1;
+            else{
+                var f1 = 1 ,f2 = 1,fn;
+                for(var i=3;i<=n;i++){
+                    //每次都f1+f2给fn
+                    fn = f1 + f2;
+                    //在f1给f2,f2给fn为下一轮循环做准备
+                    f1 = f2;
+                    f2 = fn;
+                }
+                return fn;
+            }
+        }
+        console.log(fib(100))  //354224848179262000000
+        //普通函数调用和匿名函数自调用中的this不在指向window而是undefined
+        function fun(){
+            console.log(this)
+        }
+        fun();
+        (function fun(){
+            console.log(this)
+        })()
+    </script>
+</body>
+</html>

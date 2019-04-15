@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>遍历API:map</title>
+</head>
+<body>
+    <h2>map:依次从原数组中拿出元素,执行相同的操作后放入新数组返回</h2>
+    <script>
+        var arr = [1,2,3,4,5];
+        //让新数组元素*2,而原数组元素不变
+        /*
+        //使用for循环
+        var arr1 = [];
+        for(var i=0;i<arr.length;i++){
+            arr1[i]=arr[i]*2
+        }
+        */
+        //使用map
+        var arr1 = arr.map(
+            //注释部分是使用map时,自动执行的操作(且for循环没有的)
+            //var temp = []
+            function(elem,i,arr){
+            //temp[i]
+            return elem*=2;
+            }
+            //return temp
+        )
+        
+        console.log(arr);
+        console.log(arr1)
+    </script>
+</body>
+</html>

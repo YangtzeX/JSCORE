@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+</head>
+<body>
+<script>
+    //查找关键词的位置
+    //请用户输入一条信息
+    var input = prompt("please input");
+    //检查消息中是否含有敏感词
+    var i=input.search(/([我卧|wo])\s*([操艹草槽]|cao)/);
+    //如果不包含
+    if(i==-1){
+        document.write(`莫童说:${input}`);
+    }else{
+        //否则,就弹出警示框
+        alert("含有敏感词,不能发送");
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>替换this</title>
+</head>
+<body>
+    <script>
+        function cala(base,bound1,bound2){
+            document.write(`<h1>${this.name}的总工资为${base+bound1+bound2}</h1>`)
+        }
+        var lilei = {name:"李雷"}
+        var hmm = {name:"韩梅梅"}
+        //lilei.cala(10000,2000,3000)  //lilei.cala is not a function
+        //使用call临时替换this,让this指向被调用的对象
+        cala.call(lilei,10000,2000,3000)   //李雷的总工资为15000
+        //cala.call(hmm,8000,3000,2000)  //韩梅梅的总工资为13000
+        var salary=[8000,3000,2000];
+        cala.apply(hmm,salary)      //韩梅梅的总工资为13000
+        //使用bind为lilei创建一个函数副本
+        var lcala = cala.bind(lilei,10000);
+        /*
+        *var lcala = cala.bind(lilei,10000); =>
+        *lcala:function(base=10000,bound1,bound2){
+            ...this....  //直接指向lilei
+        }
+        */
+        lcala(2000,3000)   //结果和call临时调用一样 李雷的总工资为15000
+    </script> 
+</body>
+</html>

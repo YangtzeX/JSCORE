@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>汇总</title>
+</head>
+<body>
+    <h2>汇总:对数组中的元素值进行统计,得出一个汇总的结果</h2>
+    <script>
+        var class1 = [1,5,7,10,25];
+        var sum = class1.reduce((prev,elem,i,arr)=>{
+            return prev + elem;
+        },0)  //0:(base:基数)
+        console.log(sum)   //48
+        //复杂汇总:统计字符串中的单词每个字母出现的次数
+        var str = "helloworld";
+        var res = str.split("").reduce(function(prev,elem){ //split将字符串以,的形式分割成数组
+            if(prev[elem]===undefined){
+                //当汇总的值恒等于undefined时,汇总一次
+                prev[elem] = 1  
+            }else{
+                prev[elem] += 1  //当第二次出现时,在当前截取的临时汇总值的基础上+1 
+            }
+            return prev; //最后都要将修改后的结果返回给reduce函数,供下一次使用
+        },{})  //基数
+        console.log(res);    //{h: 1, e: 1, l: 3, o: 2, w: 1, …}
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>替换this</title>
+</head>
+<body>
+    <script>
+        function cala(base,bonus1,bonus2){
+            document.write(`<h1>${this.name}的总工资为${base+bonus1+bonus2}</h1>`)
+        }
+        var lilei = {name:"李雷"};
+        var hmm = {name:"韩梅梅"};
+        //lilei.cala(10000,5000,3000)  //程序会报错(lilei.cala is not a function),普通函数cala中的this指向window(window原型对象到顶级原型对象中间隔着几级,且与lilei不在一个作用域链上),lilei直接用{}创建,原型对象直接指向顶级,当使用lilei.cala()时,lilei中没有cala,所以会报错
+        //使用call临时调用函数,替换this的指向
+        cala.call(lilei,10000,5000,3000)  //李雷的总工资为18000
+        //创建一个数组,使用apply临时调用函数
+        var salary = [5000,6000,5000];
+        cala.apply(hmm,salary);  //韩梅梅的总工资为16000
+        //使用bind为lilei创建一个函数副本,让this永久绑定lilei和部分参数值
+        var lcala = cala.bind(lilei,10000);
+        lcala(5000,3000)  //李雷的总工资为18000
+    </script>
+</body>
+</html>

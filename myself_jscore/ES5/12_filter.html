@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>过滤</title>
+</head>
+<body>
+    <h2>过滤:从原数组中找出符合条件的元素,复制出来返回新数组,且原数组不变</h2>
+    <script>
+        var arr = [1,2,3,4,6];    
+        //过滤出符合偶数的元素
+        //回调函数会自动被filter拿到数组中对每个元素执行一次(每次都能获得elem,i,arr),找出符合条件的元素
+        var evens = arr.filter(function(elem,i,arr){
+            return elem % 2 ==0;
+        })
+        document.write(`<h1>${arr}</h1>`)    //1,2,3,4,6
+        document.write(`<h1>${evens}</h1>`)  //2,4,6
+    </script>
+</body>
+</html>

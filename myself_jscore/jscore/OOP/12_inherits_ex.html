@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义继承</title>
+</head>
+<body>
+    <h1>自定义继承</h1>
+    <h2>1.单独修改一个对象的原型对象,不影响其他对象原型</h2>
+    <h3>语法:子对象.__proto__ = 新父对象</h3>
+    <h3>或者:Object.setPrototypeOf = (子对象,新父对象)</h3>
+    <h2>2.统一修改一类对象的父对象</h2>
+    <h3>语法:类型(构造函数名).prototype = 新父对象</h3>
+    <h3>**注意**:必须用在构造函数创建之前</h3>
+    <script>
+        /*
+        //单独修改一个对象的原型对象
+        function Student(sname,sage){
+           this.sname = sname;
+           this.sage = sage
+        } 
+        Student.prototype={
+           intr:function(){
+               document.write(`<h3>sname:${this.sname},sage:${this.sage}</h3>`)
+           }
+        }
+        //创建一个新的原型对象
+        var father = {bal:10000000,car:"Infiniti"}
+        //实例化
+        var lilei = new Student("李雷",19);
+        var hmm = new Student("韩梅梅",18);
+        //修改韩梅梅的原型对象
+        Object.setPrototypeOf(hmm,father);
+        //或者:hmm.__peroto__ = father
+        console.log(hmm.bal,hmm.car);    //10000000 "Infiniti"  hmm继承了father的属性
+        console.log(lilei.bal,lilei.car); //undefined undefined
+        lilei.intr(); 
+        hmm.intr();  //报错;如果修改了hmm的原型对象的函数为对象,hmm就不再是函数,不能调用
+        */
+        //统一修改一类对象的原型对象
+        var father = {bal:1000000,car:"Infiniti"};
+        function Student(sname,sage){
+            this.sname = sname;
+            this.sage = sage;
+        }
+        Student.prototype={
+            intr:function(){
+                document.write(`<h3>sname:${this.sname},sage:${this.sage}</h3>`)
+            }
+        }
+        //修改原型对象
+        Student.prototype = father;
+        //实例化
+        var lilei = new Student("李雷",16);
+        var hmm = new Student("韩梅梅",16);
+        console.log(lilei.bal,lilei.car);   //1. undefined  undefined //2. 100000000 Infiniti
+        console.log(hmm.bal,hmm.car);       //1. 100000000 Infiniti //2.100000000 Infiniti
+        console.log(lilei);
+        console.log(hmm)
+    </script>
+</body>
+</html>

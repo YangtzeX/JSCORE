@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>判断</title>
+</head>
+<body>
+    <h1>判断数组的元素是否符合要求</h1>
+    <h2>arr.every():判断数组中的元素是否都符合要求</h2>
+    <h2>arr.some():判断数组中是否有符合要求的元素</h2>
+    <script>
+        var arr1 = [1,2,3,4,5];
+        var arr2 = [2,4,6,8,2];
+        //判断哪个数组都是偶数
+        document.write(`<h1>
+            ${arr1.every(function(elem,i,arr){
+                return elem%2==0;    //false
+            })}</h1><h1>
+            ${arr2.every(function(elem,i,arr){
+                return elem%2==0;    //true
+            })} 
+            </h1>`)
+        //判断哪个数组的元素是升序排列
+        document.write(`<h1>${       //this -->arr1
+                                     // ↓                        
+            arr1.every(function(elem,i,arr){
+                //this-->window 
+                //arr -->
+                return i<arr.length-1 ? elem<arr[i+1] :true    //true
+            })
+        }</h1><h1>
+        ${
+            arr2.every(function(elem,i,arr){
+                return i<arr.length-1 ? elem<arr[i+1] :true    //false
+            })
+        }    
+        </h1>`)
+    </script>
+</body>
+</html>

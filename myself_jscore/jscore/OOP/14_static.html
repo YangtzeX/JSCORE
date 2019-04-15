@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>OOP:静态方法</title>
+</head>
+<body>
+    <script>
+        //按id查询商品---getById(id)静态方法(不知道giant商品对象)
+        //保存当前商品到数据库---save()实例方法(知道商品对象)
+        //构造函数
+        function Product(){}
+        //静态方法---直接添加到构造函数的对象上(不知道是哪件商品)
+        Product.getById=function(){
+            console.log("按id查询商品对象")
+        }
+        //原型对象
+        Product.prototype={
+            //实例方法---保存在原型对象中(知道要保存的商品)
+            save:function(){
+                console.log("将商品保存到数据库")
+            }
+        }
+        //实例化
+        //实例方法
+        var p = new Product();
+        p.save() //->数据库
+        //静态方法,
+        Product.getById();
+    </script>
+</body>
+</html>

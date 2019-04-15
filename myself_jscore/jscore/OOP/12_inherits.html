@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自定义继承</title>
+</head>
+<body>
+    <script>
+        //2.1 自定义继承:统一修改一类对象的父对象:创建一个新的父对象
+        var father = {bal:100000000,car:"infiniti"}
+        //构造函数
+        function Student(sname,sage){
+            this.sname = sname; //属性
+            this.sage = sage;
+        }
+        //原型对象
+        Student.prototype={
+            //方法
+            intr:function(){
+                document.write(`我是${this.sname};今年:${this.sage}`)
+            }
+        }
+        //2.统一修改一类对象的父对象:将新的父对象修改为原型对象
+        Student.prototype = father; //此时李雷和韩梅梅就都拥有父对象的属性
+        //var father = {bal:100000000,car:"Infiniti"}  //1.自定义继承:单独修改一个对象的原型对象
+        var lilei = new Student("李雷",19);
+        var hmm = new Student("韩梅梅",17);
+        
+        //Object.setPrototypeOf(hmm,father)  //1.自定义继承:单独修改一个对象的原型对象 韩梅梅的原型对象拥有father属性的值,而李雷没有
+        console.log(lilei.bal,lilei.car);   //1. undefined  undefined //2. 100000000 Infiniti
+        console.log(hmm.bal,hmm.car);       //1. 100000000 Infiniti //2.100000000 Infiniti
+        console.log(lilei);
+        console.log(hmm)
+    </script>
+</body>
+</html>

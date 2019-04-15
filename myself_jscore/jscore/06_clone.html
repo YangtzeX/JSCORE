@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>克隆</title>
+</head>
+<body>
+    <script>
+        var lilei = {
+            sname : "LiLei",
+            sage : 11
+        }
+        function clone(obj){
+            //先创建一个新对象
+            var newObj = {}
+            //遍历原对象中的每个属性
+            for(var key in obj){
+                //每遍历一个属性,就为newObj强行添加新同属性,值为原对象中的同属性名
+                newObj[key] = obj[key];
+            }
+            //返回一个新对象
+            return newObj;
+        } 
+        var lilei2=clone(lilei);
+        console.log(lilei);
+        console.log(lilei2);
+        console.log(lilei==lilei2)   //false 克隆成功
+        lilei.sage++;
+        console.log(lilei.sage)  //12
+        console.log(lilei2.sage)  //11
+    </script>
+</body>
+</html>

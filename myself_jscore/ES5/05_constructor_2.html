@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>严谨的构造函数</title>
+</head>
+<body>
+    <h2>在05_constructor.html上的升级</h2>
+    <script>
+        "use strict";
+        function Emp(eid,ename,salary,age){
+            //eid只读
+            //ename禁止删除
+            //salary禁止遍历
+            //age范围在18-65之间
+            //使用保护对象中的保护属性-命名属性-数据属性来进行保护属性
+            Object.defineProperties(this,{  //不确定有几个对象访问,当有多个对象访问时,此时this指向被调用的对象
+                eid:{
+                    value:eid,
+                    writable:false, //禁止修改
+                    enumerable:true,  //允许遍历
+                    //configurable:false  //禁止修改属性  //被Object.seal(this)取代
+                },
+                ename:{
+                    value:ename,
+                    writable:true,
+                    enumerable:true,
+                    configurable:false
+                },
+                salary:{
+                    value:salary,
+                    writable:true,
+                    enumerable:false,
+                    configurable:false  //被Object.seal(this)取代
+                },
+                //使用访问器属性保护属性:自定义规则保护属性
+                //1.定义一个半隐藏的_age属性
+                _age:{
+                    //此时为防止第一次传入的年龄不和规定所以在此处不写value
+                    writable:true,
+                    enumerable:false, //让其属性半隐藏
+                    //configurable:false //被Object.seal(this)取代
+                }
+                //2.定义当访问器属性
+                //因为访问器属性的值为函数,如果写在构造函数内,访问的每个对象在被调用后不会释放,不利于节省空间,因此要写在原型对象里
+            })
+            //已经有了访问器属性age
+            this.age = age  //给访问器属性赋值并调用get访问器属性的set()方法
+            //保护结构三级别
+            //1.防扩展:禁止给所有对象添加新属性
+            //Object.preventExtensions(this); //this指被调用的对象
+            //2.密封:禁止给对象添加新属性和禁止删除现有属性
+            //取代Object.preventExtensions的防扩展和configurable:false的禁止删除
+            Object.seal(this);
+        }
+        //在访问器属性中创建原型对象
+        Object.defineProperty(Emp.prototype,"age",{
+            //获取时自动调用get
+            get:function(){
+                return this._age
+            },
+            //修改时自动调用set
+            set:function(value){
+                //判断年龄范围
+                if(value>=18&&value<=65)
+                    return this._age=value
+                else
+                    throw new Error("年龄超范围")
+            },
+            enumerable:true,
+            //configurable:false
+        })
+        //实例化一个对象
+        var eric = new Emp(1001,"埃里克",12000,25)
+        //试图修改eid
+        //eric.eid = 1;
+        //试图删除ename
+        //delete eric.ename;
+        //试图遍历salary
+        for(var key in eric){
+            document.write(`<h1>${key} : ${eric[key]}</h1>`)
+        }
+        //修改年龄
+        eric.age = 26
+        //添加新属性
+        eric.Age = 2 // 第53行代码已禁止
+        console.log(eric)
+    </script>
+</body>
+</html>

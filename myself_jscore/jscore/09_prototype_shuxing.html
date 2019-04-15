@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自有属性和公有属性</title>
+</head>
+<body>
+    <h2>自有属性保存在自有的函数对象中,只能直接调用</h2>
+    <h2>共有属性保存在原型对象中,可以共同使用和修改</h2>
+    <script>
+        //构造函数
+        function Student(name,age){
+            //属性
+            this.sname = name;
+            this.sage = age;
+        }
+        //原型对象
+        Student.prototype.intr=function(){
+            document.write(`I'm ${this.sname} , I'm ${this.sage};`);
+        }
+        //添加共有属性
+        Student.prototype.className="初二一班"
+        /*new事件
+        *1.创建一个新对象
+        *2.新对象构造函数的继承原型对象
+        *3.新对象调用构造函数,自动将构造函数中的this指向new,通过强行赋值的方法将构造函数的属性以及属性值添加到新对象中
+        *4.返回新对象的地址给变量
+        */ 
+        var lilei = new Student('LiLei',12);
+        var hmm = new Student("HanMeimei",13);
+        //又过了一年
+        Student.prototype.className="初三二班"
+        lilei.className="初二三班" //此时自有属性改变了lilei的共有属性,不随着共有属性的修改而变化
+        //又过了一年
+        Student.prototype.className = "高一三班"
+        lilei.intr();
+        hmm.intr();
+        console.log(lilei);
+        console.log(hmm);
+        console.log(lilei.className,hmm.className);
+    </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>严格模式</title>
+</head>
+<body>
+    <script>
+        //"use strict";  //严格模式
+        /*
+        var  gf;
+        qgf = "蔡徐坤,出来打球";
+        console.log(gf);
+        console.log(qfg);  //qgf is not undefined
+        */
+        var eric = {eid:1001,name:"埃里克"};
+        Object.defineProperty(eric,"eid",{
+            writable:false  //定义(define)eric eid的属性(property)为不(false)可(able)修改(writ)
+        });  
+        eric.eid = 1  //修改eid的值
+        console.log(eric);  //当使用严格模式时会报错:Cannot assign to read only property 'eid' of object '#<Object>'
+                            //当不在严格模式下不会报错,打印输出({eid: 1001, name: "埃里克"}),但结果没被修改-->静默模式:执行不成功,也不报错                                                    
+    </script>
+</body>
+</html>

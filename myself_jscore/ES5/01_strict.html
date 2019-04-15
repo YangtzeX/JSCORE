@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>严格模式:禁用arguments.callee</title>
+</head>
+<body>
+    <h1>ES5:严格模式的要求</h1>
+    <h2>1.禁止给为声明的变量赋值</h2>
+    <h2>2.静默失败提升为错误</h2>
+    <h3>&nbsp;&nbsp;&nbsp;静默失败:执行不成功,也不报错</h3>
+    <h2>3.禁用了arguments.callee</h2>
+    <h3>&nbsp;&nbsp;&nbsp;斐波那契函数</h3>
+    <h3>&nbsp;&nbsp;&nbsp;arguments.cassee的优点:在递归中代替写死的行数对象,可以被多次调用</h3>
+    <h3>&nbsp;&nbsp;&nbsp;在严格模式下会报错</h3>
+    <h3>&nbsp;&nbsp;&nbsp;被替换原因:递归会重复计算重复出现的数,效率极低,等待时间太长</h3>
+    <h3>&nbsp;&nbsp;&nbsp;解决:使用for循环代替递归</h3>
+    <h2>4.普通函数和匿名函数自调用的this不再指向window</h2>
+    <script>
+        //"use strict";  //严格模式
+        //静默失败提升为错误
+        var eric = {eid:1001,name:"埃里克"};
+        Object.defineProperty(eric,"eid",{
+            writable:false   //定义eric的eid属性为不可修改
+        }) 
+        //修改eid
+        eric.eid = 1;
+        console.log(eric);  //未使用严格模式时输出 :{eid: 1001, name: "埃里克"}--> eid修改失败
+                            //严格模式下:报错Cannot assign to read only property 'eid' of object '#<Object>'
+        /*
+        //使用递归计算斐波那契
+        function fib(n){
+            if(n<3) return 1;
+            else{
+                //return fib(n-1)+fib(n-2)
+                //用arguments.callee代替写死的函数名
+                return arguments.callee(n-1)+arguments.callee(n-2);  //严格模式下会报错
+            }
+        }
+        console.log(fib(10))  //55
+        console.log(fib(45))  //值越大,等待时间太长
+        */
+        //使用for循环代替,且在严格模式下不会报错
+        function fib(n){
+            if(n<3) return 1;
+            else{
+                var f1 = 1,f2 = 1,fn
+                //循环遍历,让符合的值相加
+                for(var i=0;i<=n;i++){
+                    //每次都f1+f2给fn
+                    fn=f1+f2;
+                    //f1给f2,f2给fn为后面的相加做准备
+                    f1=f2;
+                    f2=fn;
+                }
+                return fn; //返回最后相加的结果
+            }
+        }
+        console.log(fib(50));   //53316291173  无需等待,无需重复相加相同的数字的值
+        //严格模式中,普通函数和匿名函数自调用的this不再指向window,而是undefined
+        function fun(){
+            console.log(this)   //undefined
+        }
+        fun();
+        (function(){
+            console.log(this)   //undefined
+        })();
+    </script>
+</body>
+</html>

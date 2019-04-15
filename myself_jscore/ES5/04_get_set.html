@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>访问器属性</title>
+</head>
+<body>
+    <script>
+        //定义一个对象
+        var eric = {eid:1001,ename:"埃里克"}
+        //自定义规则保护age属性
+        //age必须在18-65
+        Object.defineProperties(eric,{
+            //1.先定义一个受保护的半隐藏_age属性
+            _age:{
+                value:25,
+                writable:true,  //可修改
+                enumerable:false, //不允许遍历,半隐藏
+                configurable:false //不允许删除
+            },
+            //2.定义访问器属性保护_age
+            age:{
+                //获取属性
+                get:function(){
+                    document.write(`<h1>自动调用get</h1>`);
+                    return this._age;
+                },
+                set:function(value){ //value自动接住新值
+                    document.write(`<h1>自动调用set</h1>`);
+                    //设置age的范围,判断新值是否符合要求
+                    if(value>=18&&value<=65){ //符合条件才将新值保存到原属性
+                        return this._age=value;
+                    }else{
+                        throw new Error("年龄超范围")
+                    }
+                },
+                enumerable:true,  //让age顶替_age抛头露面
+                configurable:false //不能删除保镖
+            }
+        })
+        document.write(`<h1>年龄是${eric.age}</h1>`) //自动调用get
+        //修改属性值
+        eric.age=26 //自动调用set,26等于value值
+        document.write(`<h1>一年以后,年龄为${eric.age}</h1>`);
+        //
+        try{
+            eric.age=8  //自动调用set,8自动为形参value
+        }catch(err){
+            alert(err)
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>属性受保护的构造函数</title>
+</head>
+<body>
+    <script>
+        'use strict';
+        function Emp(eid,ename,salary,age){
+            //eid只读
+            //ename禁止删除
+            //salary禁止遍历
+            //年龄在18-65
+            Object.defineProperties(this,{ //不确定有几个对象访问,当有多个对象访问时,此时this指向被调用的对象
+                eid:{  //eid是属性名
+                    value:eid,  //eid属性值   -->this.eid=eid
+                    writeable:false,
+                    enumerable:true,
+                    configurable:false
+                },
+                ename:{
+                    value:ename,
+                    writeable:true,
+                    enumerable:true,
+                    configurable:false
+                },
+                salary:{
+                    value:salary,
+                    writable:true,
+                    enumerable:false,
+                    configurable:false
+                },
+                //使用访问器属性保护属性值
+                //1.定义一个半隐藏的_age属性
+                _age:{
+                    //value:age,  //在此处写age,无法防住不符合年龄范围的age
+                    writable:true,
+                    enumerable:false, //隐藏
+                    configurable:false
+                },
+                //2.定义访问器属性_age
+                age:{
+                    //获取时自动调用get
+                    get:function(){return this._age},
+                    //修改时自动调用set
+                    set:function(value){
+                        if(value>=18&&value<=65){
+                            return this._age=value;
+                        }else{
+                            throw new Error("年龄超范围")
+                        }
+                    },
+                    enumerable:true,  //让age顶替_age抛头露面
+                    configurable:false
+                }
+            })
+            //已经有了访问器属性age
+            this.age = age  //给访问器属性赋值并自动调用get访问器的set()方法;而不再是以前的强制添加属性
+        }
+        //实例化一个对象
+        var eric = new Emp(1001,"埃里克",12000,26);
+        //试图修改eid
+        eric.eid = 1;
+        //试图删除ename
+        delete eric.ename;
+        //试图遍历salary
+        for(var key in eric){
+            document.write(`<h1>${key} : ${eric[key]}</h1>`)
+        }
+        //试图修改年龄
+        eric.age = 30
+        console.log(eric);
+    </script>
+</body>
+</html>

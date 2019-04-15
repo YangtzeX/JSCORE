@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>对02_data_property.html的升级</title>
+</head>
+<body>
+    <h2>02_data_property.html只能修改单个属性,这里是解决方法</h2>
+    <script>
+        //严格模式
+        "use strict"
+        //创建一个对象
+        var eric = {eid:1001,ename:"埃里克",salary:12000}
+        //查看eric的eid属性的特性
+        var eric_property = Object.getOwnPropertyDescriptor(eric,"eid");
+        console.log(eric_property);
+        //禁止修改eid
+        //禁止删除ename
+        //禁止遍历salary
+        //将三个属性的特性写在一起
+        Object.defineProperties(eric,{
+            eid:{
+                writeable : false, //禁止修改eid
+                configurable : false  //禁止修改这个特性
+            },
+            ename:{
+                configurable : false //禁止删除ename
+            },
+            salary:{
+                enumerable : false,  //禁止遍历salary
+                configurable : false //禁止修改特性
+            }
+        });
+        //试图修改eid的特性和eid
+        Object.defineProperty(eric,"eid",{
+            writable : true,
+            configurable : true
+        })   //当执行到此处时报错:Cannot redefine property
+        eric.eid = 1;   //当执行到此处时报错:Cannot assign to read only property 'eid' of object
+        //试图删除ename
+        delete eric.ename;  ////当执行到此处时报错: Cannot delete property 'ename' of #<Object>
+        //试图遍历salary
+        for(var key in eric){
+            document.write(`<h1>${key} : ${eric[key]}</h1>`)
+        }     //当执行到此处:遍历不到salary
+        console.log(eric)
+    </script>
+</body>
+</html>

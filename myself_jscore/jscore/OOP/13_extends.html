@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>继承与扩展</title>
+</head>
+<body>
+    <script>
+        //用程序结构描述飞机中的两类敌人(飞机和蜜蜂)
+        //创建一个抽象的父类型:集中保存共有的属性和方法
+        //1.父类型构造函数
+        function Enemy(fname,speed){
+            this.fname = fname;
+            this.speed = speed;
+        }
+        //父类型原型对象
+        Enemy.prototype={
+            fly:function(){
+                document.write(`<h1>${this.fname}以时速${this.speed}km/h飞行</h1>`)
+            }
+        };
+        //敌机类型
+        function Plane(fname,speed,score){
+            //子类型继承抽象父类型属性 
+            //Enemy(fname,speed); //Enemy的作用域中的this ->window 导致输出的fname,speed为undefined
+            //window.fname=fname  window.speed=speed
+            //解决:使用call()修正,让他执行函数调用时的对象f16
+            Enemy.call(this,fname,speed); //此处的this是Plane里的,指的是被调用的对象
+            this.score = score; //子类型自有属性  Plane的作用域中this ->f16 
+        }
+        Plane.prototype={
+            getScore:function(){
+                document.write(`<h1>击落${this.fname}获得${this.score}分</h1>`)
+            }
+        }
+        //蜜蜂类型
+        function Bee(fname,speed,award){
+            Enemy.call(this,fname,speed);
+            this.award = award;
+        }
+        Bee.prototype={
+            getAward:function(){
+                document.write(`<h1>击落${this.fname}获得${this.award}生命</h1>`)
+            }
+        }
+        //让Plane原型对象继承Enemy父类原型对象
+        Object.setPrototypeOf(Plane.prototype,Enemy.prototype);
+        Object.setPrototypeOf(Bee.prototype,Enemy.prototype);
+        //调用
+        var f16 = new Plane("F16歼击机",1000,5);
+        var bee = new Bee("小蜜蜂",500,1)
+        f16.fly();
+        f16.getScore();
+        bee.fly();
+        bee.getAward();
+    </script>
+</body>
+</html>
